@@ -83,6 +83,16 @@ class Chart:
     def __str__(self) -> str:
         return self.print('')
 
+    def print_body(self, indent) -> str:
+        result = []
+        for node in self.nodes:
+            result.append(indent + str(node))
+        for link in self.links:
+            result.append(indent + str(link))
+        for subgraph in self.subgraphs:
+            result.append(subgraph.print(indent))
+        return "\n".join(result)
+
     def print(self, indent) -> str:
         current_indent = indent
         result = []
@@ -91,13 +101,8 @@ class Chart:
             result.append(current_indent + f'title: {self.title}')
             result.append(current_indent + '---')
         result.append(current_indent + f'flowchart {self.direction.name}')
-        current_indent += '  '
-        for node in self.nodes:
-            result.append(current_indent + str(node))
-        for link in self.links:
-            result.append(current_indent + str(link))
-        for subgraph in self.subgraphs:
-            result.append(subgraph.print(current_indent))
+        
+        result.append(self.print_body(current_indent + '  '))
         return "\n".join(result)
 
     def add_node(self, node: Node):
@@ -113,22 +118,16 @@ class Chart:
 class Subgraph(Chart):
     def __str__(self) -> str:
         return self.print('')
+    
 
     def print(self, indent):
         current_indent = indent
         result = []
         result.append(current_indent + 'subgraph ' + self.title)
-        # TODO: implement ID
         current_indent += '  '
         print(f'current_indent = "{current_indent}"')
         result.append(current_indent + f'direction {self.direction.name}')
-        for node in self.nodes:
-            result.append(current_indent + str(node))
-        for link in self.links:
-            result.append(current_indent + str(link))
-        for subgraph in self.subgraphs:
-            result.append(subgraph.print(current_indent))
-        #current_indent -= '  '
+        result.append(self.print_body(current_indent))
         result.append(indent + 'end')
         return "\n".join(result)
 
@@ -136,7 +135,7 @@ class Subgraph(Chart):
 
 if __name__ == '__main__':
     chart = Chart(title='Test', direction=ChartDir.TB)
-    node1 = Node(title="this is my node", shape=NodeShape.HEXAGON)
+    node1 = Node(title="this is my node", id='my-node', shape=NodeShape.HEXAGON)
     chart.add_node(node1)
     node2 = Node(title="this is my second node")
     chart.add_node(node2)
