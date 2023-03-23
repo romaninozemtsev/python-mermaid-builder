@@ -1,6 +1,7 @@
 
 from enum import auto, Enum
 from dataclasses import dataclass, field
+import re
 
 class ChartDir(Enum):
     LR = auto()
@@ -23,9 +24,10 @@ class NodeShape(Enum):
     def wrap(self, text: str) -> str:
         return self.value.replace('VAL', text)
 
-
-def _short_hash(text: str) -> int:
-    return abs(hash(text)) % (10 ** 8)
+class LinkType(Enum):
+    ARROW = '-->'
+    OPEN = '---'
+    INVISIBLE = '~~~'
 
 @dataclass
 class Node:
@@ -35,7 +37,8 @@ class Node:
 
     def _ensure_id(self):
         if self.id == '' and self.title != '':
-            self.id = str(_short_hash(self.title))
+            safe_title = re.sub(r'[^a-zA-Z0-9]+', '', self.title)
+            self.id = safe_title
 
     def get_id(self):
         self._ensure_id()
@@ -43,16 +46,12 @@ class Node:
 
     def __str__(self) -> str:
         self._ensure_id()
-        print(self.id)
-        print(self.shape)
-        print(self.title)
         return f'{self.id}{self.shape.wrap(self.title)}'
 
+    def link_to(self, dest_id: str, text: str = None, type: LinkType = LinkType.ARROW):
+        # TODO: see how can we implement it.
+        pass
 
-class LinkType(Enum):
-    ARROW = '-->'
-    OPEN = '---'
-    INVISIBLE = '~~~'
 
 
 @dataclass
@@ -107,12 +106,25 @@ class Chart:
 
     def add_node(self, node: Node):
         self.nodes.append(node)
+        return self
+
+    def add_node_str(self, node_id: str):
+        self.add_node(Node(id=node_id, title=node_id))
+
+    def add_nodes(self, nodes: list[Node]):
+        self.nodes.extend(nodes)
+        return self
 
     def add_link(self, link: Link):
         self.links.append(link)
+        return self
+
+    def add_link_str(self, src: str, dest: str):
+        self.add_link(Link(src=src, dest=dest))
 
     def add_subgraph(self, subgraph):
         self.subgraphs.append(subgraph)
+        return self
 
 
 class Subgraph(Chart):
@@ -125,29 +137,7 @@ class Subgraph(Chart):
         result = []
         result.append(current_indent + 'subgraph ' + self.title)
         current_indent += '  '
-        print(f'current_indent = "{current_indent}"')
         result.append(current_indent + f'direction {self.direction.name}')
         result.append(self.print_body(current_indent))
         result.append(indent + 'end')
         return "\n".join(result)
-
-
-
-if __name__ == '__main__':
-    chart = Chart(title='Test', direction=ChartDir.TB)
-    node1 = Node(title="this is my node", id='my-node', shape=NodeShape.HEXAGON)
-    chart.add_node(node1)
-    node2 = Node(title="this is my second node")
-    chart.add_node(node2)
-    link = Link(src=node1.get_id(), dest=node2.get_id(), text='this is my link')
-    chart.add_link(link)
-    subgraph = Subgraph(title='subgraph', direction=ChartDir.LR)
-    subgraph.add_node(Node(title='i am a node inside subgraph'))
-    
-    subgraph2 = Subgraph(title='subgraph2', direction=ChartDir.LR)
-    subgraph2.add_node(Node(title='subnode 2'))
-
-    subgraph.add_subgraph(subgraph2)
-
-    chart.add_subgraph(subgraph)
-    print(chart)
