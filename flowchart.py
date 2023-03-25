@@ -37,7 +37,7 @@ class Node:
 
     def _ensure_id(self):
         if self.id == '' and self.title != '':
-            safe_title = re.sub(r'[^a-zA-Z0-9]+', '', self.title)
+            safe_title = re.sub(r'[^a-zA-Z0-9\-_!#\$]+', '', self.title)
             self.id = safe_title
 
     def get_id(self):
