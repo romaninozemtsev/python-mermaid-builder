@@ -1,6 +1,6 @@
 import unittest
 
-from flowchart import Chart, Node, Link, Subgraph, NodeShape, ChartDir
+from mermaid_builder.flowchart import Chart, Node, Link, Subgraph, NodeShape, ChartDir
 
 class TestStringMethods(unittest.TestCase):
     def test_oop_style(self):

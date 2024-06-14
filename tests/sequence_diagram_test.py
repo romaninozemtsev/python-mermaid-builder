@@ -1,6 +1,6 @@
 import unittest
 
-from sequence_diagram import SequenceDiagram, Participant, ArrowType, ActivationMode, Message, Note, NotePosition
+from mermaid_builder.sequence_diagram import SequenceDiagram, Participant, ArrowType, ActivationMode, Message, Note, NotePosition
 
 class TestSequenceDiagram(unittest.TestCase):
     maxDiff = None

@@ -1,0 +1,17 @@
+[project]
+name = "mermaid_builder"
+version = "0.0.1"
+authors = [
+  { name="Roman Inozemtsev", email="roman.inozemtsev+github@gmail.com" },
+]
+description = "MermaidJS markup builder for Python"
+readme = "README.md"
+requires-python = ">=3.5"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/romaninozemtsev/python-mermaid-builder"
