@@ -1,7 +1,14 @@
-# python-mermaid-builder
+# Python MermaidJS Markup Builder
 
+MermaidJS Markup builder helps to script MermaidJS markup creation.
 
-### WIP
+MermaidJS is an amazing product, but the syntax is very human readable and writeable (comparing to graphviz for exmaple).
+
+for example, node or arrow shape on a flowchart is something that is easy to see as ASCII, but not easy to adhoc script.
+
+This library should help to write mermaidJS markup, which then can be rendered in Markdown/github or playground.
+
+### NOTE: This is VIP
 
 Next tasks:
 1. styling for flowchart (adding classes and styles)
@@ -85,8 +92,5 @@ https://www.devtoolsdaily.com/diagrams/mermaidjs/playground/
 ## Develop
 this library doesn't have any dependencies, no need to do virtual env etc.
 just use python3.5+ , as it's using `types` and `Union`
-
-
-
 
 
