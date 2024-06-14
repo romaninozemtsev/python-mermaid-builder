@@ -11,7 +11,7 @@ This library should help to write mermaidJS markup, which then can be rendered i
 ## NOTE: This is Work in progress
 
 Next tasks on my list:
-- [ ] styling for flowchart (adding classes and styles)
+- [x] styling for flowchart (adding classes and styles)
 - [ ] "clone with prefix" (creates a clone of a node or a subgraph but adds a prefix to ID, so the don't conflict)
 - [ ] class diagrams
 - [ ] groups for sequence diagrams
@@ -82,14 +82,18 @@ see `flowchart_test.py` and `sequence_diagram_test.py ` for more examples.
 
 ## Development
 
-This library doesn't have any dependencies, no need to do virtual env etc.
+This library doesn't have any dependencies.
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -e .
+```
 Just use python3.5+ , as it's using `types` and `Union`
 
 
 ### Run tests
 ```bash
-python3 flowchart_test.py
-python3 sequence_diagram_test.py 
+pytest
 ```
 
 to preview - paste results to 

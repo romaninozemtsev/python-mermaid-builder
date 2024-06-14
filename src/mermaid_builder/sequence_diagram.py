@@ -1,7 +1,6 @@
 
-from enum import auto, Enum
+from enum import Enum
 from dataclasses import dataclass, field
-import re
 from typing import Union
 
 
