@@ -14,7 +14,12 @@ class TestStringMethods(unittest.TestCase):
         subgraph.add_node(Node(title='i am a node inside subgraph'))
         
         subgraph2 = Subgraph(title='subgraph2', direction=ChartDir.LR)
-        subgraph2.add_node(Node(title='subnode 2'))
+        sn1 = Node(title='subnode 2')
+        sn2 = Node(title='subnode 3')
+        subgraph2.add_node(sn1)
+        subgraph2.add_node(sn2)
+        subgraph2.add_link(Link(src=sn1, dest=sn2, text='link between subnodes'))
+                           
 
         subgraph.add_subgraph(subgraph2)
 
@@ -34,20 +39,22 @@ flowchart TB
     subgraph subgraph2
       direction LR
       subnode2(subnode 2)
+      subnode3(subnode 3)
+      subnode2 --> |link between subnodes|subnode3
     end
   end"""
         self.assertEqual(chart.print(''), expected)
 
     def test_quick_style(self):
         chart = Chart(title='test1')
-        chart.add_node_str('user')
-        chart.add_node_str('client')
-        chart.add_node_str('server')
-        chart.add_node_str('database')
+        chart.add_node('user')
+        chart.add_node('client')
+        chart.add_node('server')
+        chart.add_node('database')
 
-        chart.add_link_str('user', 'client')
-        chart.add_link_str('client', 'server')
-        chart.add_link_str('server', 'database')
+        chart.add_link_between('user', 'client')
+        chart.add_link_between('client', 'server')
+        chart.add_link_between('server', 'database')
         expected = """---
 title: test1
 ---
@@ -59,7 +66,7 @@ flowchart TD
   user --> client
   client --> server
   server --> database"""
-        self.assertEqual(chart.print(''), expected)
+        self.assertEqual(str(chart), expected)
 
 if __name__ == '__main__':
     unittest.main()

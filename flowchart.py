@@ -2,6 +2,7 @@
 from enum import auto, Enum
 from dataclasses import dataclass, field
 import re
+from typing import Union
 
 class ChartDir(Enum):
     LR = auto()
@@ -48,25 +49,26 @@ class Node:
         self._ensure_id()
         return f'{self.id}{self.shape.wrap(self.title)}'
 
-    def link_to(self, dest_id: str, text: str = None, type: LinkType = LinkType.ARROW):
-        # TODO: see how can we implement it.
-        pass
-
-
 
 @dataclass
 class Link:
-    src: str
-    dest: str
+    src: Union[str, Node]
+    dest: Union[str, Node]
     text: str = None
     type: LinkType = LinkType.ARROW
     
     def __str__(self) -> str:
+        src_id = self.src
+        if isinstance(self.src, Node):
+            src_id = self.src.get_id()
+        dest_id = self.dest
+        if isinstance(self.dest, Node):
+            dest_id = self.dest.get_id()
         link_text = ''
         if self.text:
             link_text = f'|{self.text}|'
 
-        return f'{self.src} {self.type.value} {link_text}{self.dest}'
+        return f'{src_id} {self.type.value} {link_text}{dest_id}'
 
 
 
@@ -104,12 +106,20 @@ class Chart:
         result.append(self.print_body(current_indent + '  '))
         return "\n".join(result)
 
-    def add_node(self, node: Node):
+    def add_node(self, node: Union[Node, str]):
+        """Add a node to the chart
+        
+        Args:
+            node (Union[Node, str]): Node or string
+        
+        Returns:
+            Chart: self
+        """
+        if isinstance(node, str):
+            node = Node(title=node, id=node)
+
         self.nodes.append(node)
         return self
-
-    def add_node_str(self, node_id: str):
-        self.add_node(Node(id=node_id, title=node_id))
 
     def add_nodes(self, nodes: list[Node]):
         self.nodes.extend(nodes)
@@ -119,8 +129,13 @@ class Chart:
         self.links.append(link)
         return self
 
-    def add_link_str(self, src: str, dest: str):
-        self.add_link(Link(src=src, dest=dest))
+    def add_link_between(self, src: Union[str, Node], dest: Union[str, Node],
+                         text: str = None):
+        if isinstance(src, Node):
+            src = src.get_id()
+        if isinstance(dest, Node):
+            dest = dest.get_id()
+        self.add_link(Link(src=src, dest=dest, text=text))
 
     def add_subgraph(self, subgraph):
         self.subgraphs.append(subgraph)
