@@ -136,6 +136,7 @@ class Chart:
         if isinstance(dest, Node):
             dest = dest.get_id()
         self.add_link(Link(src=src, dest=dest, text=text))
+        return self
 
     def add_subgraph(self, subgraph):
         self.subgraphs.append(subgraph)

@@ -16,13 +16,11 @@ class TestStringMethods(unittest.TestCase):
         subgraph2 = Subgraph(title='subgraph2', direction=ChartDir.LR)
         sn1 = Node(title='subnode 2')
         sn2 = Node(title='subnode 3')
-        subgraph2.add_node(sn1)
-        subgraph2.add_node(sn2)
-        subgraph2.add_link(Link(src=sn1, dest=sn2, text='link between subnodes'))
-                           
-
+        (subgraph2
+            .add_node(sn1)
+            .add_node(sn2)
+            .add_link(Link(src=sn1, dest=sn2, text='link between subnodes')))
         subgraph.add_subgraph(subgraph2)
-
         chart.add_subgraph(subgraph)
         
 
@@ -46,15 +44,14 @@ flowchart TB
         self.assertEqual(chart.print(''), expected)
 
     def test_quick_style(self):
-        chart = Chart(title='test1')
-        chart.add_node('user')
-        chart.add_node('client')
-        chart.add_node('server')
-        chart.add_node('database')
-
-        chart.add_link_between('user', 'client')
-        chart.add_link_between('client', 'server')
-        chart.add_link_between('server', 'database')
+        chart = (Chart(title='test1')
+          .add_node('user')
+          .add_node('client')
+          .add_node('server')
+          .add_node('database')
+          .add_link_between('user', 'client')
+          .add_link_between('client', 'server')
+          .add_link_between('server', 'database'))
         expected = """---
 title: test1
 ---
