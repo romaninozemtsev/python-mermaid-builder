@@ -74,7 +74,7 @@ class Link:
 
 @dataclass
 class Chart:
-    title: str
+    title: str = None
     direction: ChartDir = ChartDir.TD
     nodes: list[Node] = field(default_factory=list)
  
@@ -116,7 +116,7 @@ class Chart:
             Chart: self
         """
         if isinstance(node, str):
-            node = Node(title=node, id=node)
+            node = Node(title=node)
 
         self.nodes.append(node)
         return self
