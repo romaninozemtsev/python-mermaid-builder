@@ -24,6 +24,7 @@ Next tasks on my list:
 
 #### untyped version
 ```python
+from mermaid_builder.flowchart import Chart
 
 chart = (Chart(title='test1')
     .add_node('user')
@@ -33,6 +34,24 @@ chart = (Chart(title='test1')
     .add_link_between('user', 'client')
     .add_link_between('client', 'server')
     .add_link_between('server', 'database'))
+
+print(chart)
+```
+
+result:
+
+```mermaid
+---
+title: test1
+---
+flowchart TD
+  user(user)
+  client(client)
+  server(server)
+  database(database)
+  user --> client
+  client --> server
+  server --> database
 ```
 
 #### OOP (more complicated version)
@@ -57,6 +76,28 @@ subgraph.add_subgraph(subgraph2)
 chart.add_subgraph(subgraph)
 ```
 
+result:
+
+```mermaid
+---
+title: Test
+---
+flowchart TB
+  my-node{{this is my node}}
+  thisismysecondnode(this is my second node)
+  my-node --> |this is my link|thisismysecondnode
+  subgraph subgraph [subgraph]
+    direction LR
+    iamanodeinsidesubgraph(i am a node inside subgraph)
+    subgraph subgraph2 [subgraph2]
+      direction LR
+      subnode2(subnode 2)
+      subnode3(subnode 3)
+      subnode2 --> |link between subnodes|subnode3
+    end
+  end
+```
+
 
 ## Sequence diagram
 ```python
@@ -75,6 +116,17 @@ database = Participant(id='D', label='Database')
     .add_note(Note(participants=[client], text='This is a note', position=NotePosition.LEFT_OF)))
 ```
 
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant S as Server
+  participant D as Database
+  C ->+ S: HTTP Request
+  S -> D: SQL Query
+  D --> S: Result
+  S ->- C: HTTP Response
+  Note left of C: This is a note
+```
 
 
 see `flowchart_test.py` and `sequence_diagram_test.py ` for more examples.
