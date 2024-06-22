@@ -1,5 +1,9 @@
 # Python MermaidJS Markup Builder
 
+[Github](https://github.com/romaninozemtsev/python-mermaid-builder)
+
+[pypi](https://pypi.org/project/mermaid-builder/)
+
 MermaidJS Markup builder helps to script MermaidJS markup creation.
 
 MermaidJS is an amazing product, but the syntax is very human readable and writeable (comparing to graphviz for exmaple).
@@ -12,11 +16,10 @@ This library should help to write mermaidJS markup, which then can be rendered i
 
 Next tasks on my list:
 - [x] styling for flowchart (adding classes and styles)
+- [x] package for distribution
 - [ ] "clone with prefix" (creates a clone of a node or a subgraph but adds a prefix to ID, so the don't conflict)
 - [ ] class diagrams
 - [ ] groups for sequence diagrams
-- [x] package for distribution
-
 
 ## Examples:
 

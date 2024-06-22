@@ -1,5 +1,9 @@
 # Python MermaidJS Markup Builder
 
+[Github](https://github.com/romaninozemtsev/python-mermaid-builder)
+
+[pypi](https://pypi.org/project/mermaid-builder/)
+
 MermaidJS Markup builder helps to script MermaidJS markup creation.
 
 MermaidJS is an amazing product, but the syntax is very human readable and writeable (comparing to graphviz for exmaple).
